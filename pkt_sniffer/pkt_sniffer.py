@@ -14,6 +14,7 @@ DATA_TAB_4 = '\t\t\t\t '
 
 def main():
     connection = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
+    # use this on ubuntu connection = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(0x0003))
 
     while True:
         raw_data, addr = connection.recvfrom(65535)
@@ -24,7 +25,7 @@ def main():
         print('Destination Mac: {}, Source Mac: {}, Protocol: {}'.format(dest_mac, src_mac, eth_protocol))
 
         # eth_protocol 8 mean ipv4
-        if eth_protocol == 8 :
+        if eth_protocol == 8:
             (version, header_length, ttl, protocol, src_ip, dest_ip, data) = unpack_ipv4_pkt(data)
             print(TAB_1 + 'IPv4 Packet:')
             print(TAB_2 + 'Version: {}, Header Length: {}, TTL: {}'.format(version, header_length, ttl))
