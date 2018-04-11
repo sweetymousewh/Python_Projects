@@ -7,8 +7,8 @@ def main():
     connection = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
 
     while True:
-        raw_data, addr = connection.recv(65536)
-        raw_data = str(raw_data, 'utf-8')
+        raw_data, addr = connection.recvfrom(65536)
+        # print(raw_data[:14])
         des_mac, src_mac, eth_protocol, data = unpack_frame(raw_data)
 
         print('\nEthernet Frame:')
@@ -23,7 +23,7 @@ def unpack_frame(data):
 
 # format mac with AA:AA:AA:AA:AA:AA
 def format_mac(bytes_addr):
-    bytes_str = map('{:2x}'.format, bytes_addr)
+    bytes_str = map('{:02x}'.format, bytes_addr)
     return ':'.join(bytes_str).upper()
 
 main()
